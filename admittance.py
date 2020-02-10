@@ -53,9 +53,9 @@ class Admittance:
         # TODO: Prevent failure when 2 lines between same buses
         for key in self.lines.keys():
             admittance[self.buses[self.lines[key]['bus1']]][self.buses[self.lines[key]['bus2']]] \
-                = -self.lines[key]['admittance']
+                = self.lines[key]['admittance']
             admittance[self.buses[self.lines[key]['bus2']]][self.buses[self.lines[key]['bus1']]] \
-                = -self.lines[key]['admittance']
+                = self.lines[key]['admittance']
         # Finish with the diagonal, based on current state, 1,1 is sum of -1 * column 1 etc. etc.
         # The following only works thanks to a square matrix.
         for col in range(len(admittance)):
