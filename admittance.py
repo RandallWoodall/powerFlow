@@ -25,12 +25,11 @@ class Admittance:
         self.produce_matrix()
 
     # add_line function adds a single line item to the admittance matrix iff the line isn't already there.
-    # TODO: Ensure check on line existance
     def add_line(self, line):
         # Split the line input at every space
         line_parts = line.split(' ')
         # Assuming line comes in as R + jX instead of G + jB
-        self.lines[line_parts[0]] = {'bus1': line_parts[1], 'bus2': line_parts[2],
+        self.lines[line_parts[0]] = {'bus1': int(line_parts[1]), 'bus2': int(line_parts[2]),
                                      'impedance': complex(float(line_parts[3]), float(line_parts[4])),
                                      'admittance': 1/complex(float(line_parts[3]), float(line_parts[4]))}
 
@@ -50,12 +49,11 @@ class Admittance:
         admittance = np.zeros((bus_count, bus_count), complex)
         # We now have the right shape for our admittance matrix, fill it up
         # Start with connections between buses
-        # TODO: Prevent failure when 2 lines between same buses
         for key in self.lines.keys():
-            admittance[self.buses[self.lines[key]['bus1']]][self.buses[self.lines[key]['bus2']]] \
-                = -self.lines[key]['admittance']
-            admittance[self.buses[self.lines[key]['bus2']]][self.buses[self.lines[key]['bus1']]] \
-                = -self.lines[key]['admittance']
+            admittance[self.lines[key]['bus1']-1][self.lines[key]['bus2']-1] \
+                += -self.lines[key]['admittance']
+            admittance[self.lines[key]['bus2']-1][self.lines[key]['bus1']-1] \
+                += -self.lines[key]['admittance']
         # Finish with the diagonal, based on current state, 1,1 is sum of -1 * column 1 etc. etc.
         # The following only works thanks to a square matrix.
         for col in range(len(admittance)):

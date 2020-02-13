@@ -6,8 +6,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 from admittance import Admittance
+import sys
+import numpy as np
 
-test1 = Admittance(['line_1 1 2 0 .04', 'line_2 1 4 0 .02', 'line_3 2 4 0 .02',
-                    'line_4 4 3 0 .0067'])
+test1 = Admittance(open(sys.argv[1], 'r+').readlines())
+np.set_printoptions(linewidth=5000)
 print(test1.admittance)
 
