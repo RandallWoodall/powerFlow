@@ -57,8 +57,6 @@ class Gauss:
                 self.S[i] = np.complex(P1, Q1)
             V_old = self.V
             self.V = self.iterate_V()
-            print(self.V)
-            print(self.S)
 
     def iterate_V(self):
         new_V = []

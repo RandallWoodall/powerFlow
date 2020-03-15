@@ -35,8 +35,7 @@ def Load(e):
         fname = fileDialog.GetPath()
 
     admittance = loadAdmittance(fname)
-    wx.StaticText(frm, 1, 'Y = ' + np.array2string(admittance.admittance))#  +
-                  #'\n\nZ = ' + np.array2string(np.linalg.inv(admittance.admittance)))
+    wx.StaticText(frm, 1, 'Y = ' + np.array2string(admittance.admittance))
     frm.SetStatusText('')
 
 def Run(e):
@@ -53,12 +52,14 @@ def Run(e):
     pqvd = pd.read_csv(fname, header=None)
     powerFlow = Gauss(admittance.admittance, pqvd[0].values, pqvd[1].values, pqvd[2].values, pqvd[3].values)
     powerFlow.solve()
+    wx.StaticText(frm, 2, 'V = ' + np.array2string(np.array(powerFlow.V)) + '\n S = ' +
+                  np.array2string(np.array(powerFlow.S)) + '\n')
     frm.SetStatusText('')
 
 
 if __name__ == '__main__':
     app = wx.App()
-    frm = wx.Frame(None, title='Power Flow Program', size=(1200, 800))
+    frm = wx.Frame(None, title='Power Flow Program', size=(800, 400))
     frm.SetBackgroundColour(wx.Colour(wx.WHITE))
     frm.Show()
     frm.CreateStatusBar()
